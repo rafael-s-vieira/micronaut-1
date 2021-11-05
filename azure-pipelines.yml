@@ -29,6 +29,7 @@ steps:
     spotBugsAnalysis: false
 
 - task: Gradle@3
+  displayName: 'Build image'
   inputs:
     gradleWrapperFile: 'gradlew'
     tasks: 'dockerBuild'
@@ -36,3 +37,13 @@ steps:
     javaHomeOption: 'JDKVersion'
     sonarQubeRunAnalysis: false
     spotBugsAnalysis: false
+
+- task: DockerCompose@0
+  displayName: 'Push image'
+  inputs:
+    containerregistrytype: 'Azure Container Registry'
+    azureSubscription: 'Azure subscription 1(02ed0353-2c61-416a-a30d-b24cff915791)'
+    azureContainerRegistry: '{"loginServer":"micronauttw.azurecr.io", "id" : "/subscriptions/02ed0353-2c61-416a-a30d-b24cff915791/resourceGroups/FirstMicronautTest/providers/Microsoft.ContainerRegistry/registries/micronauttw"}'
+    action: 'Push services'
+    includeSourceTags: true
+    includeLatestTag: true
